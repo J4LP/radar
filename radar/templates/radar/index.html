@@ -1,0 +1,72 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}Radar | {{ config.EVE.auth_name }}{% endblock %}
+
+{% block content %}
+<div class="row" ng-controller="RadarStructuresController">
+    <div class="col-md-12">
+        <h1><i class="fa fa-fw fa-building"></i> Structures <a href="{{ url_for('RadarView:new_structure') }}" class="btn btn-lg btn-header btn-success pull-right"><i class="fa fa-fw fa-plus"></i> Add structure</a></h1>
+        <p class="text-muted">Last updated: <span ng-bind="lastUpdated|date:'medium'"></span></p>
+        <hr/>
+    </div>
+    {% raw %}
+    <div class="col-md-12" ng-cloak>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Corporation</th>
+                    <th>Alliance</th>
+                    <th>Status</th>
+                    <th>Notified on</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="structure in structures" ng-class="{danger: structure.standing < 0, success: structure.standing > 0, info: structure.standing == 0}">
+                    <td><a ng-href="http://evemaps.dotlan.net/system/{{structure.system}}">{{ structure.planet }}</a></td>
+                    <td>{{ structure.eve_type }}</td>
+                    <td><a href="http://evemaps.dotlan.net/corp/{{structure.corporation}}">{{ structure.corporation }}</a></td>
+                    <td><a ng-href="http://evemaps.dotlan.net/alliance/{{structure.alliance}}">{{ structure.alliance }}</a></td>
+                    <td>{{ structure.status }}</td>
+                    <td>{{ structure.created_on|date:'medium' }}</td>
+                    <td>
+                        <button class="btn btn-xs btn-nephritis" ng-click="events.openScanModal(structure)"><i class="fa fa-fw fa-bullseye"></i> Scan</button>
+                    </td>
+                </tr>
+                <tr ng-show="!structures.length">
+                    <td colspan="6">No structures recorded.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <script type="text/ng-template" id="structure_scan_modal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Scan for {{ structure.eve_type }} in {{ structure.system }}</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-show="structure.scan.content">
+                    <pre ng-bind="structure.scan.content"></pre>
+                    <ul class="list-inline">
+                        <li><i class="fa fa-fw fa-user-plus"></i> {{ structure.scan.added_by.main_character }} <{{ structure.scan.added_by.corporation }}>  </li>
+                        <li><i class="fa fa-fw fa-clock-o"></i>{{ structure.scan.created_on|date:'medium' }}</li>
+                    </ul>
+                </div>
+                <p class="text-muted" ng-show="!structure.scan.content">No scan yet, why not go there and paste it here?</p>
+                <button ng-hide="editingScan" class="btn btn-nephritis btn-sm" ng-click="editingScan = true"><i class="fa fa-fw fa-paste"></i> Update</button>
+                <form ng-show="editingScan" >
+                    <div class="form-group">
+                        <textarea ng-model="newScan" class="form-control" name="scan" id="scan" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-nephritis btn-sm"><i class="fa fa-fw fa-save" ng-click="events.saveScan()"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </script>
+    </div>
+    {% endraw %}
+</div>
+{% endblock %}

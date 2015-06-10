@@ -1,0 +1,90 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}Radar | {{ config.EVE.auth_name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1><i class="fa fa-fw fa-building"></i> New Structure</h1>
+        <hr/>
+    </div>
+    <div class="col-md-6 col-md-offset-3" ng-controller="AddStructureController" ng-init="events.init('{{ url_for('RadarView:index') }}')">
+    {% raw %}
+        <form class="form-horizontal well" name="addStructureForm" ng-submit="events.saveStructure()">
+            <div class="form-group" ng-class="{'has-error': addStructureForm.system.$invalid && addStructureForm.system.$dirty}">
+                <label for="system" class="col-md-3 control-label">System</label>
+                <div class="col-md-9">
+                    <input
+                        class="form-control"
+                        type="text"
+                        name="system"
+                        ng-model="structure.system"
+                        required
+                        typeahead="system for system in events.getSystem($viewValue)"
+                        typeahead-min-length="3"/>
+                    <p class="help-block" ng-show="addStructureForm.system.$error.required && addStructureForm.system.$dirty">A valid system is required</p>
+                    <p class="help-block" ng-show="loadingSystems"><i class="fa fa-fw fa-refresh fa-spinning"></i></p>
+                    <p class="help-block">Type more than 3 characters to search</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': addStructureForm.planet.$invalid && addStructureForm.planet.$dirty}">
+                <label for="planet" class="col-md-3 control-label">Planet/Moon</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" name="planet" ng-model="structure.planet" required/>
+                    <p class="help-block" ng-show="addStructureForm.planet.$error.required && addStructureForm.planet.$dirty">A valid planet or moon is required</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': addStructureForm.type.$invalid && addStructureForm.type.$dirty}">
+                <label for="planet" class="col-md-3 control-label">Type</label>
+                <div class="col-md-9">
+                    <input
+                        class="form-control"
+                        type="text"
+                        name="type"
+                        ng-model="structure.type"
+                        required
+                        typeahead="type for type in events.getEveType($viewValue)"
+                        typeahead-min-length="3"/>
+                    <p class="help-block" ng-show="addStructureForm.type.$error.required && addStructureForm.type.$dirty">A valid Eve item is required</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': addStructureForm.corporation.$invalid && addStructureForm.corporation.$dirty}">
+                <label for="corporation" class="col-md-3 control-label">Corporation</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" name="corporation" ng-model="structure.corporation" required/>
+                    <p class="help-block" ng-show="addStructureForm.corporation.$error.required && addStructureForm.corporation.$dirty">A valid corporation is required</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="alliance" class="col-md-3 control-label">Alliance</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" name="alliance" ng-model="structure.alliance"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="system" class="col-md-3 control-label">Status</label>
+                <div class="col-md-9">
+                    <select class="form-control" name="status" id="status">
+                        <option value="Online">Online</option>
+                        <option value="Online">Offline</option>
+                        <option value="Online">Reinforced</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="scan" class="col-md-3 control-label">Scan</label>
+                <div class="col-md-9">
+                    <textarea class="form-control" id="scan" name="scan" ng-model="structure.scan"></textarea>
+                    <p class="help-block">Optional</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button type="submit" class="btn btn-belize btn-block"><i class="fa fa-fw fa-plus"></i> Add new structure</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endraw %}
+</div>
+{% endblock %}

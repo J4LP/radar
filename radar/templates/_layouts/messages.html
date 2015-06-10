@@ -1,0 +1,31 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container-fluid messages-container {% if no_margin %}messages-margin{% endif %}" id="alerts-container">
+        <div class="row">
+            <div class="col-md-12">
+                {% for category, message in messages %}
+                {% if category == 'message' %}
+                    <div class="alert alert-info">
+                {% else %}
+                    <div class="alert alert-{{ category }}">
+                {% endif %}
+                    <a class="close" title="Close" href="#" data-dismiss="alert">&times;</a>
+                    {{message}}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endwith %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" ng-controller="NotificationsController" ng-cloak>
+            <div class="alert alert-dismissible" ng-class="events.getCSSclass(notification)" ng-repeat="notification in notifications">
+                {% raw %}
+                    <button type="button" class="close" ng-click="events.closeNotification($index)">&times;</button> {{ notification.message }}
+                {% endraw %}
+            </div>
+        </div>
+    </div>
+</div>
