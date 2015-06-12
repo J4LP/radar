@@ -12,8 +12,15 @@ An application for tracking structures.
     tsd rebundle
     gulp
     python manage.py db migrate
+    # You'll need to edit the version file in the migrations folder to add `import sqlalchemy_utils`
     python manage.py db upgrade
+    wget https://www.fuzzwork.co.uk/dump/sqlite-latest.sqlite.bz2
+    bunzip2 sqlite-latest.sqlite.bz2
+    python manage.py load_eve_data sqlite-latest.sqlite
+    python manage.py update_structures # you might wanna set a cron for this
     python run.py
+
+More info coming soon #procrastination
 
 
 ### Licence
