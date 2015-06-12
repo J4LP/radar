@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row" ng-controller="RadarStructuresController">
     <div class="col-md-12">
-        <h1><i class="fa fa-fw fa-building"></i> Structures <a href="{{ url_for('RadarView:new_structure') }}" class="btn btn-lg btn-header btn-success pull-right"><i class="fa fa-fw fa-plus"></i> Add structure</a></h1>
+        <h1><i class="fa fa-fw fa-building"></i> Structures <a href="{{ url_for('StructuresView:new_structure') }}" class="btn btn-lg btn-header btn-success pull-right"><i class="fa fa-fw fa-plus"></i> Add structure</a></h1>
         <p class="text-muted">Last updated: <span ng-bind="lastUpdated|date:'medium'"></span></p>
         <hr/>
     </div>
