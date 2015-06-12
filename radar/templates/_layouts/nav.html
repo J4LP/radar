@@ -14,7 +14,7 @@
                 {% if not current_user.is_authenticated() %}
                     <li><a href="{{ url_for('AccountView:login') }}"><i class="fa fa-fw fa-sign-in"></i> Login</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('RadarView:index') }}"><i class="fa fa-fw fa-building-o"></i> Structures</a></li>
+                    <li><a href="{{ url_for('StructuresView:index') }}"><i class="fa fa-fw fa-building-o"></i> Structures</a></li>
 {#                    <li><a href="{{ url_for('RadarView:dscan') }}"><i class="fa fa-fw fa-space-shuttle"></i> Directional Scan</a></li>#}
                 {% endif %}
             </ul>
