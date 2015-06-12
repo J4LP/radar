@@ -18,7 +18,7 @@ def create_app(config_file=None, config_object=None):
 
     # Configuration
     app.config.from_object('radar.settings.BaseConfig')
-    app.environment = os.getenv('J4LP_RADAR_ENV', 'dev')
+    app.environment = os.getenv('lc', 'dev')
 
     if config_file:
         app.config.from_pyfile(config_file)
@@ -37,10 +37,10 @@ def create_app(config_file=None, config_object=None):
     migrate.init_app(app, db)
 
     # Blueprints
-    from radar.blueprints import AccountView, MetaView, RadarView
+    from radar.blueprints import AccountView, MetaView, StructuresView
     AccountView.register(app)
     MetaView.register(app)
-    RadarView.register(app)
+    StructuresView.register(app)
 
     # OAuth
     from radar.oauth import oauth
