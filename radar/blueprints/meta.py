@@ -7,5 +7,5 @@ class MetaView(FlaskView):
 
     def index(self):
         if current_user.is_authenticated():
-            return redirect(url_for('RadarView:index'))
+            return redirect(url_for('StructuresView:index'))
         return render_template('meta/index.html')
